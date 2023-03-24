@@ -86,11 +86,11 @@ public class AssertTest {
 		 */
 		int i = 5;
 		Integer i2 = 5;
-		// Transformando um valor primitivo em objeto para poder
-		// ser comparado com outro objeto
+		// Transformando o valor esperado em objeto para poder
+		// ser comparado com o valor recebido, que eh um objeto
 		Assert.assertEquals(Integer.valueOf(i), i2);
-		// Transformando um valor do tipo objeto em primitivo para
-		// poder ser comparado com outro valor primitivo
+		// Transformando o valor recebido em primitivo para poder
+		// ser comparado com o valor esperado, que eh um objeto
 		Assert.assertEquals(i, i2.intValue());
 		
 		/* 
