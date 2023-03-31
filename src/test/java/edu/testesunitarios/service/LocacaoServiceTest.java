@@ -7,7 +7,6 @@ import static org.hamcrest.CoreMatchers.is;
 
 import java.util.Date;
 
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
@@ -23,23 +22,18 @@ public class LocacaoServiceTest {
 	public final ErrorCollector erro = new ErrorCollector();
 	
 	@Test
-	public void testeLocacao() {
+	public void testeLocacao() throws Exception {
 		//cenario
 		LocacaoService service = new LocacaoService();
 		Usuario usuario = new Usuario("Usuario 1");
-		Filme filme = new Filme("Filme 1", 2, 5.0); // falha acontece se estoque = 0
+		Filme filme = new Filme("Filme 1", 2, 5.0); // erro acontece se estoque = 0
 
 		//acao
-		Locacao locacao;
-		try {
-			locacao = service.alugarFilme(usuario, filme);
-			//verificacao
-			erro.checkThat(locacao.getValor(), is(equalTo(5.0)));
-			erro.checkThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
-			erro.checkThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
-		} catch (Exception e) {
-			//e.printStackTrace(); // imprime a excecao no console
-			Assert.fail("Nao deveria lancar excecao");
-		}
+		Locacao locacao = service.alugarFilme(usuario, filme);
+		
+		//verificacao
+		erro.checkThat(locacao.getValor(), is(equalTo(5.0)));
+		erro.checkThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
+		erro.checkThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
 	}
 }
