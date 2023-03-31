@@ -17,6 +17,8 @@ import org.junit.rules.ExpectedException;
 import edu.testesunitarios.entidades.Filme;
 import edu.testesunitarios.entidades.Locacao;
 import edu.testesunitarios.entidades.Usuario;
+import edu.testesunitarios.excecoes.FilmeSemEstoqueException;
+import edu.testesunitarios.excecoes.LocacaoException;
 import edu.testesunitarios.servicos.LocacaoService;
 
 public class LocacaoServiceTest {
@@ -44,64 +46,52 @@ public class LocacaoServiceTest {
 	}
 	
 	/*
-	 * Se uma excecao eh lancada e este teste funcionar o log de failure trace 
-	 * nao mostra nenhuma informacao util de rastreamento alem da exceptativa 
-	 * de receber uma Exception.
+	 * Se uma excecao nao eh lancada o log de failure trace mostra apenas a
+	 * expectativa de receber uma Exception chamada FilmeSemEstoqueException.
 	 */
-	@Test(expected = Exception.class)
+	@Test(expected = FilmeSemEstoqueException.class)
 	public void testLocacao_filmeSemEstoque() throws Exception {
 		//cenario
 		LocacaoService service = new LocacaoService();
 		Usuario usuario = new Usuario("Usuario 1");
-		Filme filme = new Filme("Filme 1", 0, 5.0);
+		Filme filme = new Filme("Filme 1", 0, 5.0); // falha se estoque != 0
 
 		//acao
 		service.alugarFilme(usuario, filme);
 	}
 	
 	/*
-	 * Se uma excecao eh lancada e este teste funcionar o log de failure trace
-	 * gera uma falha, mostra o texto definido no metodo fail e rastreia apenas
-	 * o local onde este metodo foi inserido.
-	 * 
-	 * Para rastrear o problema sera necessario executar com debug.
+	 * Adcionando um breakpoint no service.alugarFilme(null, filme) para debugar
+	 * verificamos que mesmo o estoque sendo igual a 0 este teste sera realizado
+	 * com sucesso porque usuario nulo eh a primeira verificacao do servico, logo 
+	 * se usuario == null a excecao sera criada, lancada e os outros fluxos nao 
+	 * serao verificados.
 	 */
 	@Test
-	public void testLocacao_filmeSemEstoque_comTryCatch() {
+	public void testLocacao_usuarioVazio() throws FilmeSemEstoqueException {
 		//cenario
 		LocacaoService service = new LocacaoService();
-		Usuario usuario = new Usuario("Usuario 1");
-		Filme filme = new Filme("Filme 1", 0, 5.0);
+		Filme filme = new Filme("Filme 1", 1, 5.0);
 
 		//acao
 		try {
-			service.alugarFilme(usuario, filme);
-			fail("Deveria ter lancado uma excecao"); // garante o sucesso do teste
-		} catch (Exception e) {
-			assertThat(e.getMessage(), is("Filme sem estoque"));
+			service.alugarFilme(null, filme);
+			fail();
+		} catch (LocacaoException e) {
+			assertThat(e.getMessage(), is("Usuario vazio"));
 		}
 	}
 	
-	/*
-	 * A Rule precisa ser inserida antes de chamar o metodo que pode
-	 * criar a excecao. Do contratio, sera gerado um erro com rastreio 
-	 * de dois pontos e uma mensagem:
-	 * 
-	 *   1. O teste que chamou o metodo que gerou a exception.
-	 *   2. O metodo que gerou a exception.
-	 *   3. A  mensagem definida na criacao da exception.
-	 */
 	@Test
-	public void testLocacao_filmeSemEstoque_comRule() throws Exception {
+	public void testLocacao_filmeVazio() throws FilmeSemEstoqueException, LocacaoException {
 		//cenario
 		LocacaoService service = new LocacaoService();
 		Usuario usuario = new Usuario("Usuario 1");
-		Filme filme = new Filme("Filme 1", 0, 5.0);
 
 		exception.expect(Exception.class);
-		exception.expectMessage("Filme sem estoque");
+		exception.expectMessage("Filme vazio");
 		
 		//acao
-		service.alugarFilme(usuario, filme);
+		service.alugarFilme(usuario, null);
 	}
 }
