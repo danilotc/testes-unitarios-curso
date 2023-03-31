@@ -12,6 +12,7 @@ import java.util.Date;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
+import org.junit.rules.ExpectedException;
 
 import edu.testesunitarios.entidades.Filme;
 import edu.testesunitarios.entidades.Locacao;
@@ -22,6 +23,9 @@ public class LocacaoServiceTest {
 
 	@Rule
 	public final ErrorCollector erro = new ErrorCollector();
+	
+	@Rule
+	public ExpectedException exception = ExpectedException.none();
 	
 	@Test
 	public void testeLocacao() throws Exception {
@@ -76,5 +80,28 @@ public class LocacaoServiceTest {
 		} catch (Exception e) {
 			assertThat(e.getMessage(), is("Filme sem estoque"));
 		}
+	}
+	
+	/*
+	 * A Rule precisa ser inserida antes de chamar o metodo que pode
+	 * criar a excecao. Do contratio, sera gerado um erro com rastreio 
+	 * de dois pontos e uma mensagem:
+	 * 
+	 *   1. O teste que chamou o metodo que gerou a exception.
+	 *   2. O metodo que gerou a exception.
+	 *   3. A  mensagem definida na criacao da exception.
+	 */
+	@Test
+	public void testLocacao_filmeSemEstoque_comRule() throws Exception {
+		//cenario
+		LocacaoService service = new LocacaoService();
+		Usuario usuario = new Usuario("Usuario 1");
+		Filme filme = new Filme("Filme 1", 0, 5.0);
+
+		exception.expect(Exception.class);
+		exception.expectMessage("Filme sem estoque");
+		
+		//acao
+		service.alugarFilme(usuario, filme);
 	}
 }
