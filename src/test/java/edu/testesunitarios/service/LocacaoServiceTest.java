@@ -88,7 +88,7 @@ public class LocacaoServiceTest {
 		LocacaoService service = new LocacaoService();
 		Usuario usuario = new Usuario("Usuario 1");
 
-		exception.expect(Exception.class);
+		exception.expect(LocacaoException.class);
 		exception.expectMessage("Filme vazio");
 		
 		//acao
