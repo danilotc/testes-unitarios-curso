@@ -9,6 +9,7 @@ import static org.junit.Assert.fail;
 
 import java.util.Date;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
@@ -22,6 +23,8 @@ import edu.testesunitarios.excecoes.LocacaoException;
 import edu.testesunitarios.servicos.LocacaoService;
 
 public class LocacaoServiceTest {
+	
+	private LocacaoService service;
 
 	@Rule
 	public final ErrorCollector erro = new ErrorCollector();
@@ -29,10 +32,14 @@ public class LocacaoServiceTest {
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
 	
+	@Before
+	public void iniciarInstanciaLocacaoService_paraTodosTestes() {
+		service = new LocacaoService();
+	}
+	
 	@Test
 	public void testeLocacao() throws Exception {
 		//cenario
-		LocacaoService service = new LocacaoService();
 		Usuario usuario = new Usuario("Usuario 1");
 		Filme filme = new Filme("Filme 1", 2, 5.0); // erro acontece se estoque = 0
 
@@ -52,7 +59,6 @@ public class LocacaoServiceTest {
 	@Test(expected = FilmeSemEstoqueException.class)
 	public void testLocacao_filmeSemEstoque() throws Exception {
 		//cenario
-		LocacaoService service = new LocacaoService();
 		Usuario usuario = new Usuario("Usuario 1");
 		Filme filme = new Filme("Filme 1", 0, 5.0); // falha se estoque != 0
 
@@ -70,7 +76,6 @@ public class LocacaoServiceTest {
 	@Test
 	public void testLocacao_usuarioVazio() throws FilmeSemEstoqueException {
 		//cenario
-		LocacaoService service = new LocacaoService();
 		Filme filme = new Filme("Filme 1", 1, 5.0);
 
 		//acao
@@ -85,7 +90,6 @@ public class LocacaoServiceTest {
 	@Test
 	public void testLocacao_filmeVazio() throws FilmeSemEstoqueException, LocacaoException {
 		//cenario
-		LocacaoService service = new LocacaoService();
 		Usuario usuario = new Usuario("Usuario 1");
 
 		exception.expect(LocacaoException.class);
