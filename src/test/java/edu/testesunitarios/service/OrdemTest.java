@@ -11,12 +11,12 @@ public class OrdemTest {
 	private static int contador = 0;
 	
 	@Test
-	public void inicio() {
+	public void test1_inicio() {
 		contador = 1;
 	}
 
 	@Test
-	public void verifica() {
+	public void test2_verifica() {
 		Assert.assertEquals(1, contador);
 	}
 }
