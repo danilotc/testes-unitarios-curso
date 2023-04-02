@@ -1,4 +1,4 @@
-package edu.testesunitarios.service;
+package edu.testesunitarios.servicos;
 
 import edu.testesunitarios.excecoes.NaoPodeDividirPorZeroException;
 

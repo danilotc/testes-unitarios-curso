@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.testesunitarios.excecoes.NaoPodeDividirPorZeroException;
+import edu.testesunitarios.servicos.Calculadora;
 
 public class CalculadoraTest {
 	
