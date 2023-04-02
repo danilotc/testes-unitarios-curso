@@ -1,13 +1,11 @@
 package edu.testesunitarios.service;
 
 import org.junit.Assert;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
-/*
- * Este teste nao esta passando desta forma porque a ordem de
- * execucao deles esta sendo gerenciada pelo JUnit de forma 
- * aleatoria e os testes dependem um do outro.
- */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class OrdemTest {
 
 	private static int contador = 0;
