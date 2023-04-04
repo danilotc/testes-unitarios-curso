@@ -2,6 +2,7 @@ package edu.testesunitarios.servicos;
 
 import static edu.testesunitarios.utils.DataUtils.adicionarDias;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import edu.testesunitarios.entidades.Locacao;
 import edu.testesunitarios.entidades.Usuario;
 import edu.testesunitarios.excecoes.FilmeSemEstoqueException;
 import edu.testesunitarios.excecoes.LocacaoException;
+import edu.testesunitarios.utils.DataUtils;
 
 public class LocacaoService {
 	
@@ -50,6 +52,9 @@ public class LocacaoService {
 		//Entrega no dia seguinte
 		Date dataEntrega = new Date();
 		dataEntrega = adicionarDias(dataEntrega, 1);
+		if (DataUtils.verificarDiaSemana(dataEntrega, Calendar.SUNDAY)) {
+			dataEntrega = adicionarDias(dataEntrega, 1);
+		}
 		locacao.setDataRetorno(dataEntrega);
 		
 		//Salvando a locacao...	
