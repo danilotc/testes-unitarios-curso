@@ -34,8 +34,14 @@ public class LocacaoService {
 		locacao.setDataLocacao(new Date());
 		
 		Double valorTotal = 0d;
-		for (Filme filme : filmes) {
-			valorTotal += filme.getPrecoLocacao();
+		for (int indice = 0; indice < filmes.size(); indice++) {
+			Filme filme = filmes.get(indice);
+			Double valorFilme = filme.getPrecoLocacao();
+			if (indice == 2) valorFilme *= 0.75;
+			if (indice == 3) valorFilme *= 0.5;
+			if (indice == 4) valorFilme *= 0.25;
+			if (indice == 5) valorFilme = 0d;
+			valorTotal += valorFilme;
 		}
 		locacao.setValor(valorTotal);
 
