@@ -1,11 +1,11 @@
 package edu.testesunitarios.service;
 
+import static edu.testesunitarios.metchers.MatchersProprios.caiNumaSegunda;
 import static edu.testesunitarios.utils.DataUtils.isMesmaData;
 import static edu.testesunitarios.utils.DataUtils.obterDataComDiferencaDias;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.Arrays;
@@ -119,7 +119,8 @@ public class LocacaoServiceTest {
 		Locacao resultado = service.alugarFilme(usuario, filmes);
 		
 		//verificacao
-		boolean ehSegunda = DataUtils.verificarDiaSemana(resultado.getDataRetorno(), Calendar.MONDAY);
-		assertTrue(ehSegunda);
+//		assertThat(resultado.getDataRetorno(), new DiaSemanaMatcher(Calendar.MONDAY));
+//		assertThat(resultado.getDataRetorno(), caiEm(Calendar.MONDAY));
+		assertThat(resultado.getDataRetorno(), caiNumaSegunda());
 	}
 }
