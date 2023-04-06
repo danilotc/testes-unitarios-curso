@@ -1,8 +1,8 @@
 package edu.testesunitarios.service;
 
 import static edu.testesunitarios.metchers.MatchersProprios.caiNumaSegunda;
-import static edu.testesunitarios.utils.DataUtils.isMesmaData;
-import static edu.testesunitarios.utils.DataUtils.obterDataComDiferencaDias;
+import static edu.testesunitarios.metchers.MatchersProprios.ehHoje;
+import static edu.testesunitarios.metchers.MatchersProprios.ehHojeComDiferencaDias;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -56,8 +56,8 @@ public class LocacaoServiceTest {
 		
 		//verificacao
 		erro.checkThat(locacao.getValor(), is(equalTo(5.0)));
-		erro.checkThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
-		erro.checkThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
+		erro.checkThat(locacao.getDataLocacao(), ehHoje());
+		erro.checkThat(locacao.getDataRetorno(), ehHojeComDiferencaDias(1));
 	}
 	
 	/*
