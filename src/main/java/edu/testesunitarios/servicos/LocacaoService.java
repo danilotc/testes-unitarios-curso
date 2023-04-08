@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import buildermaster.BuilderMaster;
 import edu.testesunitarios.entidades.Filme;
 import edu.testesunitarios.entidades.Locacao;
 import edu.testesunitarios.entidades.Usuario;
@@ -61,5 +62,9 @@ public class LocacaoService {
 		//TODO adicionar método para salvar
 		
 		return locacao;
+	}
+	
+	public static void main(String[] args) {
+		new BuilderMaster().gerarCodigoClasse(Locacao.class);
 	}
 }
