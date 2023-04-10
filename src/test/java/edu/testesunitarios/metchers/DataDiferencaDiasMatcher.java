@@ -17,7 +17,6 @@ public class DataDiferencaDiasMatcher extends TypeSafeMatcher<Date> {
 		this.qtdDias = qtdDias;
 	}
 
-	@Override
 	public void describeTo(Description description) {
 		Calendar data = Calendar.getInstance();
 		data.set(Calendar.DAY_OF_WEEK, qtdDias);

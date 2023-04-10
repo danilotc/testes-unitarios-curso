@@ -16,6 +16,8 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
+import edu.testesunitarios.dao.LocacaoDAO;
+import edu.testesunitarios.dao.LocacaoDAOFake;
 import edu.testesunitarios.entidades.Filme;
 import edu.testesunitarios.entidades.Locacao;
 import edu.testesunitarios.entidades.Usuario;
@@ -42,6 +44,8 @@ public class CalculoValorLocacaoTest {
 	@Before
 	public void iniciarInstanciaLocacaoService_paraTodosTestes() {
 		service = new LocacaoService();
+		LocacaoDAO dao = new LocacaoDAOFake();
+		service.setLocacaoDAO(dao);
 	}
 	
 	private static Filme filme1 = umFilme().comValor(4.0).agora();
