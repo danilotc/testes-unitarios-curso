@@ -10,5 +10,14 @@
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 		</dependency>
+		<!-- 
+		Se algum problema acontecer tente usar o mockito-core testando algumas versoes
+		https://javadoc.io/doc/org.mockito/mockito-core/2.18.0/org/mockito/Mockito.html
+		-->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.10.19</version>
+		</dependency>
 	</dependencies>
 </project>
