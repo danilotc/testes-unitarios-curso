@@ -17,6 +17,7 @@ import edu.testesunitarios.utils.DataUtils;
 public class LocacaoService {
 	
 	private LocacaoDAO dao;
+	private SpcService spcService;
 	
 	public Locacao alugarFilme(Usuario usuario, List<Filme> filmes) throws FilmeSemEstoqueException, LocacaoException {
 		if (usuario == null) {
@@ -31,6 +32,10 @@ public class LocacaoService {
 			if (filme.getEstoque() == 0) {
 				throw new FilmeSemEstoqueException();
 			}
+		}
+		
+		if(spcService.possuiNegativavao(usuario)) {
+			throw new LocacaoException("Usuario negativado");
 		}
 		
 		Locacao locacao = new Locacao();
@@ -68,5 +73,9 @@ public class LocacaoService {
 	
 	public void setLocacaoDAO(LocacaoDAO dao) {
 		this.dao = dao;
+	}
+	
+	public void setSpcService(SpcService spc) {
+		spcService = spc;
 	}
 }

@@ -24,6 +24,7 @@ import edu.testesunitarios.entidades.Usuario;
 import edu.testesunitarios.excecoes.FilmeSemEstoqueException;
 import edu.testesunitarios.excecoes.LocacaoException;
 import edu.testesunitarios.servicos.LocacaoService;
+import edu.testesunitarios.servicos.SpcService;
 
 //Estudar mais sobre DDT (Data Driven Test)
 
@@ -46,6 +47,8 @@ public class CalculoValorLocacaoTest {
 		service = new LocacaoService();
 		LocacaoDAO dao = Mockito.mock(LocacaoDAO.class);
 		service.setLocacaoDAO(dao);
+		SpcService spc = Mockito.mock(SpcService.class);
+		service.setSpcService(spc);
 	}
 	
 	private static Filme filme1 = umFilme().comValor(4.0).agora();

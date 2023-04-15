@@ -10,6 +10,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -31,11 +32,14 @@ import edu.testesunitarios.entidades.Usuario;
 import edu.testesunitarios.excecoes.FilmeSemEstoqueException;
 import edu.testesunitarios.excecoes.LocacaoException;
 import edu.testesunitarios.servicos.LocacaoService;
+import edu.testesunitarios.servicos.SpcService;
 import edu.testesunitarios.utils.DataUtils;
 
 public class LocacaoServiceTest {
 	
 	private LocacaoService service;
+	private LocacaoDAO dao;
+	private SpcService spc;
 
 	@Rule
 	public final ErrorCollector erro = new ErrorCollector();
@@ -46,8 +50,10 @@ public class LocacaoServiceTest {
 	@Before
 	public void iniciarInstanciaLocacaoService_paraTodosTestes() {
 		service = new LocacaoService();
-		LocacaoDAO dao = Mockito.mock(LocacaoDAO.class);
+		dao = Mockito.mock(LocacaoDAO.class);
 		service.setLocacaoDAO(dao);
+		spc = Mockito.mock(SpcService.class);
+		service.setSpcService(spc);
 	}
 	
 	@Test
@@ -129,5 +135,26 @@ public class LocacaoServiceTest {
 //		assertThat(resultado.getDataRetorno(), new DiaSemanaMatcher(Calendar.MONDAY));
 //		assertThat(resultado.getDataRetorno(), caiEm(Calendar.MONDAY));
 		assertThat(resultado.getDataRetorno(), caiNumaSegunda());
+	}
+	
+	@Test
+	public void naoDeveAlugarFilmeParaUsuarioNegativado() throws FilmeSemEstoqueException, LocacaoException {
+		//cenario
+		Usuario usuario = umUsuario().agora();
+		List<Filme> filmes = Arrays.asList(umFilme().agora());
+		
+		//definindo comportamento do mockito para um objeto mocado
+		//quando metodo for chamado com usuario entao retorne true
+		//isso porque o mockito retorna false por padrao (?)
+		when(spc.possuiNegativavao(usuario)).thenReturn(true);
+		
+		exception.expect(LocacaoException.class);
+		exception.expectMessage("Usuario negativado");
+		
+		//acao
+		service.alugarFilme(usuario, filmes);
+		
+		//verificacao
+		
 	}
 }
